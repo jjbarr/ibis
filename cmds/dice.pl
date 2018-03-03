@@ -12,8 +12,9 @@ $ARGV[0] =~ /
     (\/[A-Za-z]+\s+)? #we match the roll itself
     (r(?<rtimes>\d+)\s+)? #repetition
     (?<n>\d+)d(?<x>\d+) #ndx
+    (r(?<reron>\d+))? #reroll on...
     (!(?<xabv>\d+))? #explode at n or greater
-    (k(?<knum>\d+))? #keep x
+    (k(?<knum>\d+)|kl(?<klnum>\d+))? #keep x
     (\+(?<plnum>\d+)|-(?<minum>\d+))? #plus or minus
     ((>=(?<osucc>\d+))|(<=(?<usucc>\d+)))? #success gte or lte
     \s*(\#(?<comment>.*))? #comment
@@ -21,8 +22,10 @@ $ARGV[0] =~ /
 
 for my $i (1..($+{rtimes} or 1)){
     my @dice=map {irand($+{x})+1} (1..$+{n});
+    if($+{reron}){@dice=map {($_==$+{reron})?irand($+{x}+1):$_} @dice}
     if($+{xabv}){@dice=map {$_>=$+{xabv}?($_,irand($+{x}+1)):$_} @dice}
     if($+{knum}){@dice=(reverse(sort {$a<=>$b} @dice))[0..$+{knum}-1]}
+    if($+{klnum}){@dice=(sort {$a<=>$b} @dice)[0..$+{klnum}-1]}
     printf "(%s)", join(", ", @dice);
     my $res=reduce {$a + $b} @dice;
     if($+{plnum}){printf "+%d", $+{plnum}}

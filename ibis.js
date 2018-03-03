@@ -9,6 +9,7 @@ for(var i=0;i<cfg.cmds.length;i++){
 }
 
 var excom = function (cstr, msg){
+    console.log("executing %s in response to message \"%s\"\n", cstr, msg);
     var res="";
     var cmd = cp.spawn(cstr, [msg.content, msg.author.username, msg.author.toString()]);
     cmd.stdout.on('data', function(data){

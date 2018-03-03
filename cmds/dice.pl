@@ -22,8 +22,8 @@ $ARGV[0] =~ /
 
 for my $i (1..($+{rtimes} or 1)){
     my @dice=map {irand($+{x})+1} (1..$+{n});
-    if($+{reron}){@dice=map {($_==$+{reron})?irand($+{x}+1):$_} @dice}
-    if($+{xabv}){@dice=map {$_>=$+{xabv}?($_,irand($+{x}+1)):$_} @dice}
+    if($+{reron}){@dice=map {($_==$+{reron})?irand($+{x})+1:$_} @dice}
+    if($+{xabv}){@dice=map {$_>=$+{xabv}?($_,irand($+{x})+1):$_} @dice}
     if($+{knum}){@dice=(reverse(sort {$a<=>$b} @dice))[0..$+{knum}-1]}
     if($+{klnum}){@dice=(sort {$a<=>$b} @dice)[0..$+{klnum}-1]}
     printf "(%s)", join(", ", @dice);

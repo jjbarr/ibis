@@ -17,7 +17,7 @@ $ARGV[0] =~ /
     (k(?<knum>\d+)|kl(?<klnum>\d+))? #keep x
     (\+(?<plnum>\d+)|-(?<minum>\d+))? #plus or minus
     ((>=(?<osucc>\d+))|(<=(?<usucc>\d+)))? #success gte or lte
-    \s*(\#(?<comment>.*))? #comment
+    \s*(;(?<comment>.*))? #comment
 /x or fail();
 
 for my $i (1..($+{rtimes} or 1)){
@@ -34,6 +34,6 @@ for my $i (1..($+{rtimes} or 1)){
     printf "=%d", $res;
     if($+{osucc}){print (($res>=$+{osucc})?"(success)":"(failure)")}
     elsif($+{usucc}){print (($res<=$+{usucc})?"(success)":"(failure)")}
-    print ". ";
+    print "\n";
 }
-if($+{comment}){printf "#%s", $+{comment}}
+if($+{comment}){printf ";%s", $+{comment}}
